@@ -1,3 +1,6 @@
+<img src="assests/logo-v2.png" alt="Covenant AI Logo" width="150" height="150">
+
+
 # Haram-AI 🔍
 
 A mobile application that reads food ingredients from grocery items and determines if the product is halal or haram using advanced AI technology.
