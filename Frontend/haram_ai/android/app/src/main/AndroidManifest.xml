@@ -1,4 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<uses-permission android:name="android.permission.CAMERA" />
+<!-- Optional: If you want to allow picking from gallery too -->
+<!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
+<!-- For newer Android versions, READ_MEDIA_IMAGES might be needed instead/as well -->
+<!-- <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> -->
+
+<!-- Declare camera feature - useful for Google Play filtering -->
+<uses-feature android:name="android.hardware.camera" android:required="false" />
     <application
         android:label="haram_ai"
         android:name="${applicationName}"
