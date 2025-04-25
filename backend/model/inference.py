@@ -3,12 +3,12 @@ import numpy as np
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import onnxruntime as ort
 
-from preprocess import preprocess_ingredients
+from .preprocess import preprocess_ingredients
 
-with open('tokenizer.pickle', 'rb') as f:
+with open('model/tokenizer.pickle', 'rb') as f:
     tokenizer = pickle.load(f)
 
-sess = ort.InferenceSession("lstm_haram.onnx")
+sess = ort.InferenceSession("model/lstm_haram.onnx")
 input_meta  = sess.get_inputs()[0]
 input_name  = input_meta.name
 output_name = sess.get_outputs()[0].name
