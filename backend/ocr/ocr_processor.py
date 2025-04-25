@@ -1,11 +1,12 @@
-from pyzerox import zerox
 import os
-from PIL import Image
-import img2pdf
 from pathlib import Path
-from dotenv import load_dotenv
-from typing import Optional
 import re
+from typing import Optional
+from dotenv import load_dotenv
+import img2pdf
+from pyzerox import zerox
+from PIL import Image
+
 
 load_dotenv()
 
@@ -62,8 +63,7 @@ class OCRProcessor:
 
             # Extract and format the content
             result = self._extract_content(zerox_output)
-            ingredients = self._extract_ingredients(result)
-            
+            ingredients = self._extract_ingredients(result)            
             # Cleanup temporary PDF if created
             if file_path.endswith('.pdf') and self._is_image_file(file_path[:-4]):
                 os.remove(file_path)
