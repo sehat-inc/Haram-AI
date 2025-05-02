@@ -35,7 +35,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   image_picker: ^1.0.7 # Or the latest version
-  http: ^1.2.0       # Or the latest version (for backend communication later)
+  dio: ^5.4.3+1
   # The following adds the Cupertino Icons font. For iOS style icons.
   cupertino_icons: ^1.0.6
 
