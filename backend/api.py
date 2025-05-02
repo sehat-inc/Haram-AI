@@ -46,7 +46,7 @@ async def analyze_ingredients(file: UploadFile = File(...)) -> JSONResponse:
     """
     try:
         # Validate file type
-        allowed_types = {"image/jpeg", "image/png", "image/gif", "image/bmp", "image/webp", "image/jpg"}
+        allowed_types = {"image/jpeg", "image/png", "image/gif", "image/bmp", "image/webp"}
         if file.content_type not in allowed_types:
             raise HTTPException(
                 status_code=400,
@@ -63,6 +63,7 @@ async def analyze_ingredients(file: UploadFile = File(...)) -> JSONResponse:
 
         # Process the image with OCR
         ingredients_text = await ocr_processor.process_image(str(temp_path))
+        
 
         # Clean up temporary file
         if temp_path.exists():
@@ -78,13 +79,20 @@ async def analyze_ingredients(file: UploadFile = File(...)) -> JSONResponse:
                 "ingredients": ingredients_text
             }
         )
+        if ingredients_text == 'no':
+            classification = "No ingredient list found"
 
-        # Get halal/haram classification
-        classification = infer(ingredients_json)
-        
-        return JSONResponse(content=
+            return JSONResponse(content=
                             {"classification": classification}
                             )
+        else:
+            # Get halal/haram classification
+           
+            classification = infer(ingredients_json)
+            
+            return JSONResponse(content=
+                                {"classification": classification}
+                                )
 
     except HTTPException as he:
         raise he

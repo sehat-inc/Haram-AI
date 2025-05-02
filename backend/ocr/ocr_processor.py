@@ -13,6 +13,14 @@ load_dotenv()
 class OCRProcessor:
     def __init__(self):
         self.model = "gemini/gemini-2.0-flash"
+        
+        self.image_prompt = """
+        You are an expert in identifying ingredient lists and grocery products. 
+        Your task is to check if the image provided contains a grocery product label. 
+        If it does, then output "YES".
+        If it does not, then output "NO".
+        """
+
         self.custom_system_prompt = """
         You are an expert at extracting ingredient information from grocery product labels.
         Focus on identifying and listing all ingredients in the image.
@@ -52,23 +60,45 @@ class OCRProcessor:
                     raise Exception("Failed to convert image to PDF")
                 file_path = pdf_path
 
-            # Process with Zerox
-            zerox_output = await zerox(
+            
+
+            # Identifying if the image contains a grocery product label
+            zerox_output_binary = await zerox(
                 file_path=file_path,
                 model=self.model,
-                custom_system_prompt=self.custom_system_prompt,
+                custom_system_prompt=self.image_prompt,
                 select_pages=None,
                 **self.kwargs
             )
 
-            # Extract and format the content
-            result = self._extract_content(zerox_output)
-            ingredients = self._extract_ingredients(result)            
-            # Cleanup temporary PDF if created
-            if file_path.endswith('.pdf') and self._is_image_file(file_path[:-4]):
-                os.remove(file_path)
+            
+
+            ifImage = self._extract_content(zerox_output_binary)
+            if ifImage == "NO" or ifImage == "no" or ifImage == "No" or ifImage == "nO":
                 
-            return ingredients
+                return 'no'
+            else:   
+
+                
+                # Process with Zerox
+                zerox_output = await zerox(
+                    file_path=file_path,
+                    model=self.model,
+                    custom_system_prompt=self.custom_system_prompt,
+                    select_pages=None,
+                    **self.kwargs
+                )
+
+                # Extract and format the content
+                result = self._extract_content(zerox_output)
+                ingredients = self._extract_ingredients(result)    
+                
+        
+                # Cleanup temporary PDF if created
+                if file_path.endswith('.pdf') and self._is_image_file(file_path[:-4]):
+                    os.remove(file_path)
+                    
+                return ingredients
 
         except Exception as e:
             return f"Error processing image: {str(e)}"
