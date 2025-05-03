@@ -174,9 +174,3 @@ cython_debug/
 .pypirc
 
 haramai-key.pem
-
-Frontend/
-
-training/
-
-Dockerfile
