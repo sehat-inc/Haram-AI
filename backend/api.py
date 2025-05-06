@@ -47,7 +47,7 @@ async def analyze_ingredients(file: UploadFile = File(...)) -> JSONResponse:
     try:
         # Validate file type
         allowed_types = {"image/jpeg","image/jpg", "image/png", "image/gif", "image/bmp", "image/webp", "application/octet-stream"}
-        print(file.content_type)
+        print("File type:", file.content_type)
         if file.content_type not in allowed_types:
             raise HTTPException(
                 status_code=400,
@@ -90,7 +90,7 @@ async def analyze_ingredients(file: UploadFile = File(...)) -> JSONResponse:
             # Get halal/haram classification
            
             classification = infer(ingredients_json)
-            
+            print("Classification:", classification)
             return JSONResponse(content=
                                 {"classification": classification}
                                 )
