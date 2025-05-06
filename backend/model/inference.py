@@ -43,6 +43,7 @@ def predict_texts_single(texts,
 def infer(ingredients):
 
     cleaned_ingredients = preprocess_ingredients(ingredients)
+    print(f"\n{'-'*15}Cleaned ingredients{'-'*15}:\n", cleaned_ingredients)
     texts = [cleaned_ingredients]
     pred = predict_texts_single(
         texts=texts,
