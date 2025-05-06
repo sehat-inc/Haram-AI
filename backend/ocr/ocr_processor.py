@@ -117,10 +117,10 @@ class OCRProcessor:
             with Image.open(image_path) as image:
                 if image.mode == 'RGBA':
                     image = image.convert('RGB')
-                    
+                
                 with open(output_pdf, "wb") as f:
-                    f.write(img2pdf.convert(image_path))
-                    
+                    f.write(img2pdf.convert(image_path, rotation=img2pdf.Rotation.ifvalid))
+                
             return output_pdf
         except Exception as e:
             raise Exception(f"Error converting image to PDF: {str(e)}")
