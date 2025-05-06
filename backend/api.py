@@ -65,7 +65,7 @@ async def analyze_ingredients(file: UploadFile = File(...)) -> JSONResponse:
         # Process the image with OCR
         ingredients_text = await ocr_processor.process_image(str(temp_path))
         
-
+        print("Ingredients text:", ingredients_text)
         # Clean up temporary file
         if temp_path.exists():
             os.remove(temp_path)
